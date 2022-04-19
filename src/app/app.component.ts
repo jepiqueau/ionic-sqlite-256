@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
+import { SQLiteService } from './services/sqlite.service';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,16 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(
+    private platform: Platform,
+    private sqlite: SQLiteService,
+  ) {
+    this.platform.ready().then( () => {
+      this.platform.backButton.subscribeWithPriority(
+                                      666666, () => {
+          App.exitApp();
+      });
+    });
+    console.log('>>>> in App');
+  }
 }
